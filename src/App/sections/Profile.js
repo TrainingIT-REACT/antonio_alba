@@ -13,8 +13,6 @@ const Profile = props => (
         - <a href="#">logout</a> -
       </li>
     </ul>
-
-
   </div>
 );
 

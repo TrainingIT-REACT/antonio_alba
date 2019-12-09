@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Album from './sections/Album';
 import Library from './sections/Library';
@@ -6,11 +6,12 @@ import Login from './sections/Login';
 import Home from './sections/Home';
 import Profile from './sections/Profile';
 import Search from './sections/Search';
+import ErrorBoundary from "./utils/ErrorBoundary";
 
 // Css
 import './App.css';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -69,18 +70,23 @@ class App extends Component {
           </nav>
 
           <section className="app-section">
-            { this.state.loading &&
-              <div className="loading-container">
-                <p className="loading-content">Loading...</p>
-              </div>
-            }
+            <ErrorBoundary
+              message="Ops! Something goes wrong while loading this section..."
+              wrap={true}
+              >
+              { this.state.loading &&
+                <div className="loading-container">
+                  <p className="loading-content">Loading...</p>
+                </div>
+              }
 
-            <Route path="/search" exact component={Search}/>
-            <Route path="/library" exact component={Library}/>
-            <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
-            <Route path="/user" exact component={Profile}/>
-            <Route path="/user/login" exact component={Login}/>
-            <Route path="/" exact component={Home}/>
+              <Route path="/search" exact component={Search}/>
+              <Route path="/library" exact component={Library}/>
+              <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
+              <Route path="/user" exact component={Profile}/>
+              <Route path="/user/login" exact component={Login}/>
+              <Route path="/" exact component={Home}/>
+            </ErrorBoundary>
           </section>
 
           <div className="player-footer">

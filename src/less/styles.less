@@ -83,6 +83,7 @@ input,
 button {
   box-sizing: border-box;
   display: block;
+  font-size: 1em;
   margin: 0 0 1em;
   outline: none;
   padding: .5em 1em;
@@ -161,6 +162,23 @@ input {
 
 .app-section {
   padding: @header-height + 1 2em;
+}
+
+// Error
+.error {
+  color: @color-red;
+  text-align: center;
+  &.section {
+    padding: 3em 0;
+    @media @media-medium-screen {
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+.error-message {
+  font-size: 2em;
 }
 
 // Footer
@@ -334,8 +352,12 @@ input {
   }
 }
 .login-form {
+  font-size: 1.147em;
   margin: 1em auto;
-  max-width: 80%;
+
+  @media @media-small-screen {
+    max-width: 80%;
+  }
   button {
     background: @color-6;
     border-radius: 3em;
