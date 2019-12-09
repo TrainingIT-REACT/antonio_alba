@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import Album from './sections/Album';
+import Library from './sections/Library';
+import Login from './sections/Login';
+import Home from './sections/Home';
+import Profile from './sections/Profile';
+import Search from './sections/Search';
 
 // Css
 import './App.css';
@@ -29,31 +36,67 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <h1>Plantilla de la práctica final!</h1>
-        <p>
-          Esta plantilla contiene todo lo necesario para comenzar a
-          desarrollar la práctica final. Antes de comenzar a desarrollar,
-          lee la documentación de la práctica y el fichero README.md de
-          este repositorio.
-        </p>
-        <h2>Servidor de desarrollo</h2>
-        <p>
-          El proyecto está preconfigurado con un servidor de desarrollo basado
-          en json-server:
-        </p>
-          { this.state.loading ?
-            <p>Cargando...</p>
-            : <ul>
-              {this.state.albums.map(album => <li key={album.id}>{album.name}</li>)}
+      <Router>
+        <div className="app container">
+          <nav className="app-nav">
+            <ul>
+              <li>
+                <NavLink
+                  activeClassName="app-nav-link-active"
+                  className="app-nav-link app-nav-home"
+                  exact
+                  to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeClassName="app-nav-link-active"
+                  className="app-nav-link app-nav-search"
+                  to="/search">Search</NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeClassName="app-nav-link-active"
+                  className="app-nav-link app-nav-library"
+                  to="/library">Library</NavLink>
+              </li>
+              <li>
+                <NavLink
+                  activeClassName="app-nav-link-active"
+                  className="app-nav-link app-nav-profile"
+                  to="/user">Profile</NavLink>
+              </li>
             </ul>
-          }
-        <h2>¿Dudas?</h2>
-        <p>
-          No olvides pasarte por el foro si tienes alguna duda sobre la práctica final
-          o la plantilla :).
-        </p>
-      </div>
+          </nav>
+
+          <section className="app-section">
+            { this.state.loading &&
+              <div className="loading-container">
+                <p className="loading-content">Loading...</p>
+              </div>
+            }
+
+            <Route path="/search" exact component={Search}/>
+            <Route path="/library" exact component={Library}/>
+            <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
+            <Route path="/user" exact component={Profile}/>
+            <Route path="/user/login" exact component={Login}/>
+            <Route path="/" exact component={Home}/>
+          </section>
+
+          <div className="player-footer">
+            <div className="player-controls">
+              <span className="ply-btn ply-play">Play</span>
+            </div>
+            <p className="player-nowplaying">
+              <span className="player-song">Song</span>
+              <b> · </b>
+              <span className="player-artist">Artist</span>
+              <b> · </b>
+              <span className="player-album">Album</span>
+            </p>
+          </div>
+        </div>
+      </Router>
     );
   }
 }

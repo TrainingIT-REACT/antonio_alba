@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './less/styles.less';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import 'babel-polyfill';
 
 ReactDOM.render(
   <main>
