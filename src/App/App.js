@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, NavLink } from "react-router-dom";
+import UserContext from './contexts/user';
 import Album from './sections/Album';
 import Library from './sections/Library';
 import Login from './sections/Login';
@@ -7,6 +8,7 @@ import Home from './sections/Home';
 import Profile from './sections/Profile';
 import Search from './sections/Search';
 import ErrorBoundary from "./utils/ErrorBoundary";
+import PrivateRoute from './utils/PrivateRoute';
 
 // Css
 import './App.css';
@@ -17,8 +19,14 @@ class App extends PureComponent {
 
     this.state = {
       loading: true,
-      albums: []
+      albums: [],
+      signedIn: false,
+      updateUser: this.updateUser,
     }
+  }
+
+  updateUser = (signedIn) => {
+    this.setState(() => ({ signedIn }));
   }
 
   async componentDidMount() {
@@ -38,70 +46,77 @@ class App extends PureComponent {
   render() {
     return (
       <Router>
-        <div className="app container">
-          <nav className="app-nav">
-            <ul>
-              <li>
-                <NavLink
-                  activeClassName="app-nav-link-active"
-                  className="app-nav-link app-nav-home"
-                  exact
-                  to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink
-                  activeClassName="app-nav-link-active"
-                  className="app-nav-link app-nav-search"
-                  to="/search">Search</NavLink>
-              </li>
-              <li>
-                <NavLink
-                  activeClassName="app-nav-link-active"
-                  className="app-nav-link app-nav-library"
-                  to="/library">Library</NavLink>
-              </li>
-              <li>
-                <NavLink
-                  activeClassName="app-nav-link-active"
-                  className="app-nav-link app-nav-profile"
-                  to="/user">Profile</NavLink>
-              </li>
-            </ul>
-          </nav>
+        <React.StrictMode>
+          <UserContext.Provider value={this.state}>
+            <div className="app container">
+              <nav className="app-nav">
+                <ul>
+                  <li>
+                    <NavLink
+                      activeClassName="app-nav-link-active"
+                      className="app-nav-link app-nav-home"
+                      exact
+                      to="/">Home</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      activeClassName="app-nav-link-active"
+                      className="app-nav-link app-nav-search"
+                      to="/search">Search</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      activeClassName="app-nav-link-active"
+                      className="app-nav-link app-nav-library"
+                      to="/library">Library</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      activeClassName="app-nav-link-active"
+                      className="app-nav-link app-nav-profile"
+                      to="/user">Profile</NavLink>
+                  </li>
+                </ul>
+              </nav>
 
-          <section className="app-section">
-            <ErrorBoundary
-              message="Ops! Something goes wrong while loading this section..."
-              wrap={true}
-              >
-              { this.state.loading &&
-                <div className="loading-container">
-                  <p className="loading-content">Loading...</p>
+              <section className="app-section">
+                <ErrorBoundary
+                  message="Ops! Something goes wrong while loading this section..."
+                  wrap={true}
+                  >
+                  { this.state.loading &&
+                    <div className="loading-container">
+                      <p className="loading-content">Loading...</p>
+                    </div>
+                  }
+
+                  <React.Suspense fallback="Loading section...">
+                    <Route path="/search" exact component={Search}/>
+                    <Route path="/library" exact component={Library}/>
+                    <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
+                    <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
+                    <Route path="/user/login" exact
+                      render={(props) => <Login {...props} updateUser={this.updateUser} />} />
+                    <Route path="/" exact component={Home}/>
+                  </React.Suspense>
+                </ErrorBoundary>
+              </section>
+
+              <div className="player-footer">
+                <div className="player-controls">
+                  <span className="ply-btn ply-play">Play</span>
                 </div>
-              }
-
-              <Route path="/search" exact component={Search}/>
-              <Route path="/library" exact component={Library}/>
-              <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
-              <Route path="/user" exact component={Profile}/>
-              <Route path="/user/login" exact component={Login}/>
-              <Route path="/" exact component={Home}/>
-            </ErrorBoundary>
-          </section>
-
-          <div className="player-footer">
-            <div className="player-controls">
-              <span className="ply-btn ply-play">Play</span>
+                <p className="player-nowplaying">
+                  <span className="player-song">Song</span>
+                  <b> · </b>
+                  <span className="player-artist">Artist</span>
+                  <b> · </b>
+                  <span className="player-album">Album</span>
+                </p>
+              </div>
             </div>
-            <p className="player-nowplaying">
-              <span className="player-song">Song</span>
-              <b> · </b>
-              <span className="player-artist">Artist</span>
-              <b> · </b>
-              <span className="player-album">Album</span>
-            </p>
-          </div>
-        </div>
+          </UserContext.Provider>
+        </React.StrictMode>
       </Router>
     );
   }
