@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, Redirect, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 import UserContext from './contexts/user';
 import Album from './sections/Album';
 import Library from './sections/Library';
@@ -13,6 +13,33 @@ import PrivateRoute from './utils/PrivateRoute';
 
 // Css
 import './App.css';
+
+// Store
+import store from './store';
+
+// Action creators
+import * as historyActions from './actions/history';
+import * as userActions from './actions/user';
+
+
+// Sample Redux:
+const unsubscribe = store.subscribe(() => {
+  if (store.getState().user.name != null) {
+    console.log(`${store.getState().user.name} ha modificado la lista de TODOs`);
+    console.log(store.getState().history);
+  } else {
+    console.log(store.getState());
+  }
+});
+store.dispatch(userActions.updateName('Jesús'));
+store.dispatch(historyActions.addSong('Dormir'));
+store.dispatch(historyActions.addSong('Salir a pasear'));
+store.dispatch(historyActions.addSong('Volver a dormir'));
+store.dispatch(historyActions.listenSong(0));
+store.dispatch(historyActions.listenSong(1));
+store.dispatch(historyActions.listenSong(2));
+unsubscribe();
+
 
 class App extends PureComponent {
   constructor(props) {
@@ -92,14 +119,16 @@ class App extends PureComponent {
                   }
 
                   <React.Suspense fallback="Loading section...">
-                    <Route path="/search" exact component={Search}/>
-                    <Route path="/library" exact component={Library}/>
-                    <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
-                    <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
-                    <Route path="/user/login" exact
-                      render={(props) => <Login {...props} updateUser={this.updateUser} />} />
-                    <Route path="/" exact component={Home}/>
-                    <Route component={NotFound}/>
+                    <Switch>
+                      <Route path="/search" exact component={Search}/>
+                      <Route path="/library" exact component={Library}/>
+                      <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
+                      <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
+                      <Route path="/user/login" exact
+                        render={(props) => <Login {...props} updateUser={this.updateUser} />} />
+                      <Route path="/" exact component={Home}/>
+                      <Route component={NotFound}/>
+                    </Switch>
                   </React.Suspense>
                 </ErrorBoundary>
               </section>
