@@ -5,6 +5,7 @@ import Album from './sections/Album';
 import Library from './sections/Library';
 import Login from './sections/Login';
 import Home from './sections/Home';
+import NotFound from './sections/NotFound';
 import Profile from './sections/Profile';
 import Search from './sections/Search';
 import ErrorBoundary from "./utils/ErrorBoundary";
@@ -98,6 +99,7 @@ class App extends PureComponent {
                     <Route path="/user/login" exact
                       render={(props) => <Login {...props} updateUser={this.updateUser} />} />
                     <Route path="/" exact component={Home}/>
+                    <Route component={NotFound}/>
                   </React.Suspense>
                 </ErrorBoundary>
               </section>
