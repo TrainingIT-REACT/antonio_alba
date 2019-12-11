@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
 import UserContext from './contexts/user';
 import Album from './sections/Album';
@@ -23,6 +24,7 @@ import * as userActions from './actions/user';
 
 
 // Sample Redux:
+/* ToDo: Cleanup
 const unsubscribe = store.subscribe(() => {
   if (store.getState().user.name != null) {
     console.log(`${store.getState().user.name} ha modificado la lista de TODOs`);
@@ -39,7 +41,7 @@ store.dispatch(historyActions.listenSong(0));
 store.dispatch(historyActions.listenSong(1));
 store.dispatch(historyActions.listenSong(2));
 unsubscribe();
-
+*/
 
 class App extends PureComponent {
   constructor(props) {
@@ -73,66 +75,68 @@ class App extends PureComponent {
 
   render() {
     return (
-      <Router>
-        <React.StrictMode>
+      <React.StrictMode>
+        <Provider store={store}>
           <UserContext.Provider value={this.state}>
             <div className="app container">
-              <nav className="app-nav">
-                <ul>
-                  <li>
-                    <NavLink
-                      activeClassName="app-nav-link-active"
-                      className="app-nav-link app-nav-home"
-                      exact
-                      to="/">Home</NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      activeClassName="app-nav-link-active"
-                      className="app-nav-link app-nav-search"
-                      to="/search">Search</NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      activeClassName="app-nav-link-active"
-                      className="app-nav-link app-nav-library"
-                      to="/library">Library</NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      activeClassName="app-nav-link-active"
-                      className="app-nav-link app-nav-profile"
-                      to="/user">Profile</NavLink>
-                  </li>
-                </ul>
-              </nav>
+              <Router>
+                <nav className="app-nav">
+                  <ul>
+                    <li>
+                      <NavLink
+                        activeClassName="app-nav-link-active"
+                        className="app-nav-link app-nav-home"
+                        exact
+                        to="/">Home</NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        activeClassName="app-nav-link-active"
+                        className="app-nav-link app-nav-search"
+                        to="/search">Search</NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        activeClassName="app-nav-link-active"
+                        className="app-nav-link app-nav-library"
+                        to="/library">Library</NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        activeClassName="app-nav-link-active"
+                        className="app-nav-link app-nav-profile"
+                        to="/user">Profile</NavLink>
+                    </li>
+                  </ul>
+                </nav>
 
-              <section className="app-section">
-                <ErrorBoundary
-                  message="Ops! Something goes wrong while loading this section..."
-                  wrap={true}
-                  >
-                  { this.state.loading &&
-                    <div className="loading-container">
-                      <p className="loading-content">Loading...</p>
-                    </div>
-                  }
+                <section className="app-section">
+                  <ErrorBoundary
+                    message="Ops! Something goes wrong while loading this section..."
+                    wrap={true}
+                    >
+                    { this.state.loading &&
+                      <div className="loading-container">
+                        <p className="loading-content">Loading...</p>
+                      </div>
+                    }
 
-                  <React.Suspense fallback="Loading section...">
-                    <Switch>
-                      <Route path="/search" exact component={Search}/>
-                      <Route path="/library" exact component={Library}/>
-                      <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
-                      <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
-                      <Route path="/user/login" exact
-                        render={(props) => <Login {...props} updateUser={this.updateUser} />} />
-                      <Route path="/" exact component={Home}/>
-                      <Route component={NotFound}/>
-                    </Switch>
-                  </React.Suspense>
-                </ErrorBoundary>
-              </section>
+                    <React.Suspense fallback="Loading section...">
+                      <Switch>
+                        <Route path="/search" exact component={Search}/>
+                        <Route path="/library" exact component={Library}/>
+                        <Route path="/library/album/:name([a-zA-Z]*)" component={Album}/>
+                        <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
+                        <Route path="/user/login" exact
+                          render={(props) => <Login {...props} updateUser={this.updateUser} />} />
+                        <Route path="/" exact component={Home}/>
+                        <Route component={NotFound}/>
+                      </Switch>
+                    </React.Suspense>
 
+                  </ErrorBoundary>
+                </section>
+              </Router>
               <div className="player-footer">
                 <div className="player-controls">
                   <span className="ply-btn ply-play">Play</span>
@@ -147,8 +151,8 @@ class App extends PureComponent {
               </div>
             </div>
           </UserContext.Provider>
-        </React.StrictMode>
-      </Router>
+        </Provider>
+      </React.StrictMode>
     );
   }
 }
