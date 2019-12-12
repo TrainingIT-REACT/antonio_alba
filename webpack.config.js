@@ -28,6 +28,10 @@ module.exports = {
       '/albums': {
           target: 'http://localhost:3001',
           secure: false
+      },
+      '/images': {
+          target: 'http://localhost:3001',
+          secure: false
       }
     }
   },

@@ -9,7 +9,7 @@
     { "id": 7, "name": "Creative director", "artist": "Delaney", "cover": "/images/cover.jpg" },
     { "id": 8, "name": "No guarantees", "artist": "Kimberley", "cover": "/images/cover.jpg" },
     { "id": 9, "name": "Don't push this button", "artist": "Delaney", "cover": "/images/cover.jpg" },
-    { "id": 10, "name": "Cherry", "artist": "Stacy", "cover": "/images/cover.jpg" }
+    { "id": 10, "name": "Cherry", "artist": "Stacy", "cover": "" }
   ],
   "songs": [
     { "id": 1, "name": "Take On Me", "audio": "/music/funky_energy_loop.mp3", "seconds": 203, "album_id": 1 },

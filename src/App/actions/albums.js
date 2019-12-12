@@ -16,9 +16,9 @@ const albumsLoaded = (albums) => ({
 export const getAlbums = () => async (dispatch) => {
   dispatch(albumsLoading());
   try {
-    const res = await fetch('http://localhost:3001/albums');
+    const res = await fetch('/albums');
     const json = await res.json();
-    console.log('json', json);
+
     dispatch(albumsLoaded(json));
   } catch {
     dispatch(albumsError());

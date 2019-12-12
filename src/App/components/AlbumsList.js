@@ -5,21 +5,23 @@ import Albums from './Albums';
 
 
 class AlbumsList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     this.props.getAlbums();
   }
 
   renderAlbums() {
-    const { isLoading, error, albums } = this.props;
-
-    console.log('albums', isLoading, error, albums, this.props);
+    const { isLoading, error, albums, type, layout, keywords } = this.props;
 
     if (isLoading) {
       return <p>Loading...</p>
     } else if (error) {
       return <p>Something goes wrong trying to fetch the albums.</p>
     } else {
-      return <Albums albums={albums}/>
+      return <Albums albums={albums} type={type} layout={layout} keywords={keywords} />
     }
   }
 
