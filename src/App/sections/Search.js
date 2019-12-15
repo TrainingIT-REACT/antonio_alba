@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import AlbumsList from "../components/AlbumsList";
+import AlbumsContainer from "../components/AlbumsContainer";
 
 class Search extends React.PureComponent {
   constructor(props) {
@@ -33,7 +33,7 @@ class Search extends React.PureComponent {
         onChange={this.onChange}
         type="text" />
 
-      <AlbumsList
+      <AlbumsContainer
         type="search"
         keywords={this.state.keywords}
         layout="horizontal" />

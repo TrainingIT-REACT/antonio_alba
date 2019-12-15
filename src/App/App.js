@@ -84,7 +84,7 @@ class App extends PureComponent {
                       <Switch>
                         <Route path="/search" exact component={Search}/>
                         <Route path="/library" exact component={Library}/>
-                        <Route path="/library/album/:name([0-9a-zA-Z]*)" component={Album}/>
+                        <Route path="/library/album/:id([0-9a-zA-Z]*)" component={Album}/>
                         <PrivateRoute path="/user" exact component={Profile} updateUser={this.updateUser} />
                         <Route path="/user/login" exact
                           render={(props) => <Login {...props} updateUser={this.updateUser} />} />

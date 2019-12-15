@@ -352,9 +352,34 @@ input {
   .nowrap();
 }
 .song-artist {
-  margin: 0;
-  font-weight: normal;
+  clear: both;
   font-size: 1em;
+  font-weight: normal;
+  margin: 0;
+}
+.song-duration {
+  float: right;
+  font-weight: normal;
+}
+.album-cover-container {
+  height: 30vh;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  img {
+    max-width: 100%;
+    z-index: 1;
+  }
+  .album-title {
+    background: rgba(0,0,0,.5);
+    bottom: 0;
+    color: @color-white;
+    margin: 0;
+    position: absolute;
+    padding: .25em;
+    z-index: 2;
+  }
 }
 
 // Login

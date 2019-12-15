@@ -29,6 +29,10 @@ module.exports = {
           target: 'http://localhost:3001',
           secure: false
       },
+      '/songs': {
+          target: 'http://localhost:3001',
+          secure: false
+      },
       '/images': {
           target: 'http://localhost:3001',
           secure: false

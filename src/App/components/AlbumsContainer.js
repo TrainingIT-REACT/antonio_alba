@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { getAlbums } from '../actions/albums';
 import Albums from './Albums';
 
-
-class AlbumsList extends React.Component {
+class AlbumsContainer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -43,4 +42,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AlbumsList);
+)(AlbumsContainer);

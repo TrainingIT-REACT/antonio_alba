@@ -1,10 +1,10 @@
 import React from "react";
-import AlbumsList from "../components/AlbumsList";
+import AlbumsContainer from "../components/AlbumsContainer";
 
 const Library = props => (
   <div className="section library">
     <h2>Albums</h2>
-    <AlbumsList
+    <AlbumsContainer
       type="library"
       layout="horizontal" />
   </div>

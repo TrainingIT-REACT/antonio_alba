@@ -1,4 +1,7 @@
 const actions = [
+  "SONGS_LOADING",
+  "SONGS_LOADED",
+  "SONGS_ERROR",
   "ALBUMS_LOADING",
   "ALBUMS_LOADED",
   "ALBUMS_ERROR",

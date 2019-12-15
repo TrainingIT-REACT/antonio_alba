@@ -2,28 +2,26 @@ import types from '../actions/types';
 
 const initialState = {
   isLoading: false,
-  albums: [],
   songs: [],
   error: false
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ALBUMS_LOADING:
+    case types.SONGS_LOADING:
       return {
         ...state,
         isLoading: true,
         error: false
       };
-    case types.ALBUMS_LOADED:
+    case types.SONGS_LOADED:
       return {
         ...state,
         isLoading: false,
-        albums: action.albums,
         songs: action.songs,
         error: false
       }
-    case types.ALBUMS_ERROR:
+    case types.SONGS_ERROR:
       return {
         ...state,
         isLoading: false,
