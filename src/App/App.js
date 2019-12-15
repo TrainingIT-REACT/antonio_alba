@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Switch, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import UserContext from './contexts/user';
+import NavBar from './components/Navbar';
+import Player from './components/Player';
 import Album from './sections/Album';
 import Library from './sections/Library';
 import Login from './sections/Login';
@@ -39,36 +41,7 @@ class App extends PureComponent {
           <UserContext.Provider value={this.state}>
             <div className="app container">
               <Router>
-                <nav className="app-nav">
-                  <ul>
-                    <li>
-                      <NavLink
-                        activeClassName="app-nav-link-active"
-                        className="app-nav-link app-nav-home"
-                        exact
-                        to="/">Home</NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        activeClassName="app-nav-link-active"
-                        className="app-nav-link app-nav-search"
-                        to="/search">Search</NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        activeClassName="app-nav-link-active"
-                        className="app-nav-link app-nav-library"
-                        to="/library">Library</NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        activeClassName="app-nav-link-active"
-                        className="app-nav-link app-nav-profile"
-                        to="/user">Profile</NavLink>
-                    </li>
-                  </ul>
-                </nav>
-
+                <NavBar />
                 <section className="app-section">
                   <ErrorBoundary
                     message="Ops! Something goes wrong while loading this section..."
@@ -96,18 +69,7 @@ class App extends PureComponent {
                   </ErrorBoundary>
                 </section>
               </Router>
-              <div className="player-footer">
-                <div className="player-controls">
-                  <span className="ply-btn ply-play">Play</span>
-                </div>
-                <p className="player-nowplaying">
-                  <span className="player-song">Song</span>
-                  <b> · </b>
-                  <span className="player-artist">Artist</span>
-                  <b> · </b>
-                  <span className="player-album">Album</span>
-                </p>
-              </div>
+              <Player />
             </div>
           </UserContext.Provider>
         </Provider>

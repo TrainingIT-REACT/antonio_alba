@@ -35,7 +35,6 @@ const Albums = ({ albums, type, layout = '', keywords = '' }) => {
 
   return <ul className={`albums-list ${layoutClass}`}>
     { albumsFilter.length && albumsFilter.map((album) => (
-      <>
       <li key={album.id}>
         <NavLink className="album-link" to={`/library/album/${album.id}`}>
           { layout == 'horizontal' &&
@@ -46,7 +45,6 @@ const Albums = ({ albums, type, layout = '', keywords = '' }) => {
           <h6 className="album-artist">{album.artist}</h6>
         </NavLink>
       </li>
-      </>
       ))
       ||
       <li className="no-results">No albums with this criteria</li>
